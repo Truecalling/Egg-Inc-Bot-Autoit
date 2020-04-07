@@ -5,3 +5,5 @@ Requirements
 -Egg inc in 2nd spot in home menu
 
 -Modified Egg Inc Supported 5play.ru
+
+https://streamable.com/ib37j
