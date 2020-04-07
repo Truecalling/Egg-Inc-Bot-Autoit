@@ -1,6 +1,6 @@
 #RequireAdmin
 #Region ;**** Directives created by AutoIt3Wrapper_GUI ****
-#AutoIt3Wrapper_Icon=..\..\..\Downloads\Google-Noto-Emoji-Animals-Nature-22266-chicken.ico
+#AutoIt3Wrapper_Icon=Google-Noto-Emoji-Animals-Nature-22266-chicken.ico
 #EndRegion ;**** Directives created by AutoIt3Wrapper_GUI ****
 WinActivate("BlueStacks")
 Local $ClientPos = WinGetPos("BlueStacks")
@@ -62,7 +62,7 @@ GUICtrlSetFont(-1, 10, 400, 0, "Nirmala UI")
 Local $HoldTimer = GUICtrlCreateLabel("How long to hold button?", 69, 240, 116, 16)
 GUICtrlSetFont(-1, 7, 800, 0, "Nirmala UI")
 Local $DelayList = GUICtrlCreateList("", 272, 256, 49, 40)
-GUICtrlSetData(-1, "10|15|20|25|30|35|40|45|50|55|60")
+GUICtrlSetData(-1, "0|10|15|20|25|30|35|40|45|50|55|60")
 GUICtrlSetFont(-1, 10, 400, 0, "Nirmala UI")
 Local $DelayLabel = GUICtrlCreateLabel("How long of a delay inbetween holding?", 216, 240, 177, 16)
 GUICtrlSetFont(-1, 7, 800, 0, "Nirmala UI")
@@ -80,6 +80,7 @@ Global $GoldEggCounter = 0
 Global $BoostCounter = 0
 Global $ChickenCounter = 0
 Global $MoneyCounter = 0
+Global $StringTimeLength = ""
 
 
 
@@ -113,25 +114,27 @@ Func WatchVideo()
 	PixelSearch(911, 584,911, 584,0xFFC500)
 	If Not @error Then
 		If GUICtrlRead($FarmGoldEggsCheckBox) = $GUI_CHECKED Then
+
 		;Golden Eggs Reward
 		;MouseClick Watch
-		MouseClick("left",1050,644,2)
-		ConsoleWrite("Golden Eggs Enabled, Doing the video")
-		GUICtrlSetData($StatusLabel2, "Found video, in progress")
-		$GoldEggCounter = $GoldEggCounter + 1
-		GUICtrlSetData($GoldEggLabel2, $GoldEggCounter)
-		Sleep(60000)
-		GUICtrlSetData($StatusLabel2, "Video should be finished")
-		MouseClick("left",477,27)
-		Sleep(2400)
-		MouseClick("left",1830,68,2)
-		Sleep(3400)
-		MouseClick("left",1189,61,2)
-		Sleep(5000)
-		;NoThanks
-		;MouseClick("left",897,645,2)
-		CollectResourcesGreen()
-		Return
+
+			MouseClick("left",1050,644,2)
+			ConsoleWrite("Golden Eggs Enabled, Doing the video")
+			GUICtrlSetData($StatusLabel2, "Found video, in progress")
+			$GoldEggCounter = $GoldEggCounter + 1
+			GUICtrlSetData($GoldEggLabel2, $GoldEggCounter)
+			Sleep(60000)
+			GUICtrlSetData($StatusLabel2, "Video should be finished")
+			MouseClick("left",477,27)
+			Sleep(2400)
+			MouseClick("left",1830,68,2)
+			Sleep(3400)
+			MouseClick("left",1189,61,2)
+			Sleep(5000)
+			;NoThanks
+			;MouseClick("left",897,645,2)
+			CollectResourcesGreen()
+			Return
 		Else
 			Sleep(500)
 			MouseClick("left",804, 634,2)
@@ -204,13 +207,13 @@ Func WatchVideo()
 	EndIf
 	;
 	;Money Reward Search
-	PixelSearch(939, 508,939, 508,0xA68D46)
+	PixelSearch(946, 516,946, 516,0x2D4B2C)
 	If Not @error Then
 		If GUICtrlRead($FarmMoneyCheckbox) = $GUI_CHECKED Then
 			;Chicken Reward
 			;MouseClick Watch
 			MouseClick("left",1050,644,2)
-			ConsoleWrite("Chicken Video Enabled, Doing the video")
+			ConsoleWrite("Money Video Enabled, Doing the video")
 			GUICtrlSetData($StatusLabel2, "Found video, in progress")
 			$MoneyCounter = $MoneyCounter + 1
 			GUICtrlSetData($MoneyLabel2, $MoneyCounter)
@@ -231,7 +234,7 @@ Func WatchVideo()
 			Sleep(500)
 			;NoThanks
 			MouseClick("left",804, 634,2)
-			GUICtrlSetData($StatusLabel2, "Chicken not selected")
+			GUICtrlSetData($StatusLabel2, "Money not selected")
 		EndIf
 	EndIf
 	;
@@ -244,6 +247,15 @@ Func CloseVehiclePage()
 		Sleep(3000)
 	EndIf
 EndFunc
+Func CloseDailyReward()
+	PixelSearch(984, 571,984, 571,0x8600C4)
+	If Not @error Then
+		GUICtrlSetData($StatusLabel2, "Closing Daily Gift Page")
+		MouseClick("left",1079, 446)
+		Sleep(3000)
+	EndIf
+EndFunc
+
 Func Problem()
 	MouseMove(528,10,2)
 	Sleep(200)
@@ -258,7 +270,7 @@ Func FindChickenButton()
 	CollectResourcesGreen()
 	CloseVehiclePage()
 	ConsoleWrite("PS for Chicken Button")
-	PixelSearch(887,961,887,961,0xF00D0D)
+	PixelSearch(904, 956,957, 1008,0xF00D0D)
 	If @error Then
 		GUICtrlSetData($StatusLabel2, "Can't find home village")
 		MouseClick("left", 196, 179)
@@ -270,7 +282,7 @@ Func FindChickenButton()
 		CollectResourcesGreen()
 		Problem()
 	Else
-		MouseMove(887,961,10)
+		MouseMove(930,981,10)
 		MouseDown('Left')
 		ConsoleWrite("Holding Button Down to Spawn Chickens")
 		GUICtrlSetData($StatusLabel2, "Cooking Chickens!")
@@ -280,10 +292,10 @@ Func FindChickenButton()
 		ConsoleWrite($SleepTime)
 		MouseUp('Left')
 		$SleepTime2 = GuiCtrlRead($DelayList)
+		GUICtrlSetData($StatusLabel2, "Waiting for " & $SleepTime2 & " seconds!")
 		$SleepTime2 = Number($SleepTime2) *1000
 		Sleep($SleepTime2)
 		ConsoleWrite("Lifting Up")
-		GUICtrlSetData($StatusLabel2, "Waiting for Hen House")
 	EndIf
 	EndFunc
 
@@ -302,31 +314,27 @@ Func RewardSearch()
 		PixelSearch(1164,171,1164,171,0xFFFFFF)
 		If Not @error Then
 			MouseClick("left",1164,171)
-			Sleep(2200)
 			GUICtrlSetData($StatusLabel2, "Found something!")
-			Sleep(500)
+			Sleep(2200)
+		Else
+			Return
 		EndIf
+		CloseDailyReward()
 		PixelSearch(796, 708,796, 708,0x7F7F7F)
 		If Not @error Then
 			MouseClick("left",796, 708)
 			Sleep(2200)
-			GUICtrlSetData($StatusLabel2, "Found something!")
-			Sleep(500)
 		EndIf
 		PixelSearch(983,586,987,589,0x276EC6)
 		If Not @error Then
 			MouseClick("left",983,586,2)
 			Sleep(2200)
-			GUICtrlSetData($StatusLabel2, "Found something!")
-			Sleep(500)
 		EndIf
 		PixelSearch(983,644,983,644,0x276EC6)
 		If Not @error Then
 			Sleep(2000)
 			MouseClick("left",983,644,2)
 			Sleep(2000)
-			GUICtrlSetData($StatusLabel2, "Found something!")
-			Sleep(500)
 		EndIf
 		;start video popup
 		Sleep(500)
