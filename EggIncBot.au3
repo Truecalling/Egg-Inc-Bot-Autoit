@@ -11,7 +11,7 @@ Local $ClientPos = WinGetPos("BlueStacks")
 #include <WindowsConstants.au3>
 #include <MsgBoxConstants.au3>
 #include <Array.au3>
-#Region ### START Koda GUI section ### Form=c:\users\blackyblack\downloads\egginc.kxf
+#Region ### START Koda GUI section ### Form=c:\users\picklerick\desktop\egg-inc-bot-autoit-master\egginc.kxf
 Local $Form1_1 = GUICreate("Egg Inc bot made by St. Jimmy#9415", 420, 299, 192, 124)
 GUISetIcon("C:\Users\blackyblack\Downloads\Google-Noto-Emoji-Animals-Nature-22266-chicken.ico", -1)
 Local $FarmGoldEggsCheckBox = GUICtrlCreateCheckbox("Farm Gold Egg Videos?", 24, 32, 161, 33)
@@ -22,7 +22,7 @@ Local $FarmMoneyCheckbox = GUICtrlCreateCheckbox("Farm Money Videos?", 24, 92, 1
 GUICtrlSetFont(-1, 10, 400, 0, "Nirmala UI")
 Local $VideoLabel = GUICtrlCreateLabel("What videos to do?", 13, 0, 183, 34)
 GUICtrlSetFont(-1, 16, 400, 4, "Nirmala UI")
-Local $DisableVideoCheckbox = GUICtrlCreateCheckbox("Disable Video", 24, 152, 161, 33)
+Local $DisableVideoCheckbox = GUICtrlCreateCheckbox("Disable Video", 24, 152, 105, 33)
 GUICtrlSetFont(-1, 10, 400, 0, "Nirmala UI")
 Local $StartButton = GUICtrlCreateButton("Start", 8, 264, 75, 25)
 GUICtrlSetFont(-1, 9, 400, 0, "Nirmala UI")
@@ -31,7 +31,7 @@ GUICtrlSetFont(-1, 9, 400, 0, "Nirmala UI")
 Local $StatusLabel1 = GUICtrlCreateLabel("Status :", 24, 192, 89, 41)
 GUICtrlSetFont(-1, 20, 400, 0, "Nirmala UI")
 GUICtrlSetColor(-1, 0x000000)
-Local $StatusLabel2 = GUICtrlCreateLabel("........", 120, 192, 292, 41)
+Local $StatusLabel2 = GUICtrlCreateLabel("‏‏‎Press start or press z", 120, 192, 290, 41)
 GUICtrlSetFont(-1, 20, 400, 0, "Nirmala UI")
 GUICtrlSetColor(-1, 0x000000)
 Local $GoldEggLabel1 = GUICtrlCreateLabel("Gold Videos Done :", 264, 38, 118, 21)
@@ -62,7 +62,7 @@ GUICtrlSetFont(-1, 10, 400, 0, "Nirmala UI")
 Local $HoldTimer = GUICtrlCreateLabel("How long to hold button?", 69, 240, 116, 16)
 GUICtrlSetFont(-1, 7, 800, 0, "Nirmala UI")
 Local $DelayList = GUICtrlCreateList("", 272, 256, 49, 40)
-GUICtrlSetData(-1, "0|10|15|20|25|30|35|40|45|50|55|60")
+GUICtrlSetData(-1, "0|10|15|20|25|30|35|40|45|50|60")
 GUICtrlSetFont(-1, 10, 400, 0, "Nirmala UI")
 Local $DelayLabel = GUICtrlCreateLabel("How long of a delay inbetween holding?", 216, 240, 177, 16)
 GUICtrlSetFont(-1, 7, 800, 0, "Nirmala UI")
@@ -70,6 +70,8 @@ Local $HotKeyLabel1 = GUICtrlCreateLabel("Press Z to Toggle the bot", 152, 256, 
 GUICtrlSetFont(-1, 7, 800, 0, "Nirmala UI")
 Local $ToggleLabel2 = GUICtrlCreateLabel("Press X to exit the bot ", 157, 277, 102, 16)
 GUICtrlSetFont(-1, 7, 800, 0, "Nirmala UI")
+Local $BulbBoostCheckbox = GUICtrlCreateCheckbox("Experimental Unlimited Hatchery Boost", 136, 152, 257, 33)
+GUICtrlSetFont(-1, 10, 400, 0, "Nirmala UI")
 GUISetState(@SW_SHOW)
 #EndRegion ### END Koda GUI section ###
 Local $hWnd = WinGetHandle("[ACTIVE]")
@@ -81,6 +83,11 @@ Global $BoostCounter = 0
 Global $ChickenCounter = 0
 Global $MoneyCounter = 0
 Global $StringTimeLength = ""
+Global $BulbTime = 0
+Global $GoBulb = False
+Global $GoBulbTimerStarted = False
+Global $start = 0
+Global $ChickenTries = 0
 
 
 
@@ -109,9 +116,66 @@ Func CollectResourcesGreen()
 
 
 EndFunc
+
+
+Func BulbTimer()
+	Global $GoBulbTimerStarted = False
+	Global $GoBulb = True
+EndFunc
+
+
+
+Func RedeemBulb()
+	If $GoBulb = True Then
+		ConsoleWrite("GoBulb True")
+		If $GoBulbTimerStarted = False Then
+			MouseMove(818,987)
+			MouseClick("left",818,987)
+			Sleep(500)
+			MouseMove(793, 205)
+			Sleep(500)
+			MouseDown("left")
+			Sleep(150)
+			MouseMove(805,794)
+			Sleep(150)
+			MouseUp("left")
+			Sleep(450)
+			MouseMove(793, 205)
+			Sleep(500)
+			MouseDown("left")
+			Sleep(150)
+			MouseMove(805,794)
+			Sleep(150)
+			MouseUp("left")
+			Sleep(450)
+			MouseMove(844,505)
+			Sleep(500)
+			MouseDown("left")
+			Sleep(150)
+			MouseMove(805,794)
+			Sleep(150)
+			MouseUp("left")
+			Sleep(450)
+			MouseClick("left",1073,436)
+			Sleep(450)
+			MouseClick("left",1110,172)
+			Sleep(50)
+			Global $GoBulbTimerStarted = True
+			$start = TimerInit()
+		Else
+			ConsoleWrite("GoBulbTimerStarted False")
+		EndIf
+	Else
+		ConsoleWrite("GoBulb False")
+	EndIf
+EndFunc
+
+
+
 Func WatchVideo()
+	Sleep(1500)
 	;Golden Eggs Reward Search
-	PixelSearch(911, 584,911, 584,0xFFC500)
+	PixelSearch(903, 584,903, 584,0xFFC500)
 	If Not @error Then
 		If GUICtrlRead($FarmGoldEggsCheckBox) = $GUI_CHECKED Then
 
@@ -136,7 +200,8 @@ Func WatchVideo()
 			CollectResourcesGreen()
 			Return
 		Else
-			Sleep(500)
+			Sleep(1500)
+			MouseMove(804, 634)
 			MouseClick("left",804, 634,2)
 			GUICtrlSetData($StatusLabel2, "Golden Eggs not selected")
 		EndIf
@@ -167,6 +232,7 @@ Func WatchVideo()
 			Return
 
 		Else
+			Sleep(1000)
 			;NoThanks
 			MouseClick("left",804, 634,2)
 			GUICtrlSetData($StatusLabel2, "Boost not selected")
@@ -198,7 +264,7 @@ Func WatchVideo()
 			Return
 
 		Else
-			Sleep(500)
+			Sleep(1500)
 			;NoThanks
 			MouseClick("left",804,634,2)
 			GUICtrlSetData($StatusLabel2, "Chicken not selected")
@@ -207,7 +273,7 @@ Func WatchVideo()
 	EndIf
 	;
 	;Money Reward Search
-	PixelSearch(946, 516,946, 516,0x2D4B2C)
+	PixelSearch(900, 583,900, 583,0x527E50)
 	If Not @error Then
 		If GUICtrlRead($FarmMoneyCheckbox) = $GUI_CHECKED Then
 			;Chicken Reward
@@ -231,9 +297,10 @@ Func WatchVideo()
 			Return
 
 		Else
-			Sleep(500)
+			Sleep(1500)
 			;NoThanks
-			MouseClick("left",804, 634,2)
+			MouseMove(838, 642)
+			MouseClick("left",838, 642,2)
 			GUICtrlSetData($StatusLabel2, "Money not selected")
 		EndIf
 	EndIf
@@ -247,6 +314,22 @@ Func CloseVehiclePage()
 		Sleep(3000)
 	EndIf
 EndFunc
+Func CloseBulbErrorPage()
+	PixelSearch(972, 465,972, 465,0x276EC6)
+	If Not @error Then
+		GUICtrlSetData($StatusLabel2, "Closing Bulb Error Page")
+		MouseClick("left",972, 465)
+		Sleep(3000)
+	EndIf
+EndFunc
+Func CloseRewardPage()
+	PixelSearch(902, 641,902, 641,0xF00D0D)
+	If Not @error Then
+		GUICtrlSetData($StatusLabel2, "Closing Reward Page")
+		MouseClick("left",902, 641)
+		Sleep(3000)
+	EndIf
+EndFunc
 Func CloseDailyReward()
 	PixelSearch(984, 571,984, 571,0x8600C4)
 	If Not @error Then
@@ -257,18 +340,26 @@ Func CloseDailyReward()
 EndFunc
 
 Func Problem()
-	MouseMove(528,10,2)
+	MouseMove(501,10,2)
 	Sleep(200)
-	MouseClick("left",528,10)
+	MouseClick("left",517, 9)
 	Sleep(1000)
-	MouseClick("left",528,10)
-	Sleep(1000)
+	MouseClick("left",517, 9)
+	Sleep(5000)
 EndFunc
 
 
 Func FindChickenButton()
 	CollectResourcesGreen()
 	CloseVehiclePage()
+	CloseRewardPage()
+	RedeemBulb()
+	CloseBulbErrorPage()
+	If $GoBulb = True Then
+		If TimerDiff($start) > 650000 Then
+					BulbTimer()
+		EndIf
+	EndIf
 	ConsoleWrite("PS for Chicken Button")
 	PixelSearch(904, 956,957, 1008,0xF00D0D)
 	If @error Then
@@ -280,7 +371,11 @@ Func FindChickenButton()
 		MouseClick("left",1364,843,2)
 		Sleep(7000)
 		CollectResourcesGreen()
-		Problem()
+		$ChickenTries = $ChickenTries + 1
+		If $ChickenTries = 2 Then
+			Problem()
+			$ChickenTries = 0
+		EndIf
 	Else
 		MouseMove(930,981,10)
 		MouseDown('Left')
@@ -296,6 +391,8 @@ Func FindChickenButton()
 		$SleepTime2 = Number($SleepTime2) *1000
 		Sleep($SleepTime2)
 		ConsoleWrite("Lifting Up")
+		MouseMove(1002, 982)
+		$ChickenTries = 0
 	EndIf
 	EndFunc
 
@@ -365,6 +462,7 @@ EndFunc
 ; Set the hotkeys up
 HotkeySet('z', 'ToggleOnOff')
 HotkeySet('x', 'Off')
+HotkeySet('c', 'BulbTimer')
 
 
 Func StartFarm()
@@ -373,7 +471,6 @@ Func StartFarm()
 		RewardSearch()
 	WEnd
 EndFunc
-
 While 1
 	$nMsg = GUIGetMsg()
 	Switch $nMsg
@@ -389,6 +486,13 @@ While 1
            Sleep(50)
 		Case $FarmChickensCheckbox
 			Sleep(50)
+		Case $BulbBoostCheckbox
+			If GUICtrlRead($BulbBoostCheckbox) = $GUI_CHECKED Then
+				Global $GoBulb = True
+				Global $GoBulbTimerStarted = True
+			Else
+				Global $GoBulb = False
+			EndIf
 		Case $DisableVideoCheckbox
 			If GUICtrlRead($DisableVideoCheckbox) = $GUI_CHECKED Then
 				GuiCtrlSetState($DisableVideoCheckbox, $GUI_CHECKED)
